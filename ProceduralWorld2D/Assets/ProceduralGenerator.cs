@@ -18,6 +18,9 @@ public class ProceduralGenerator : MonoBehaviour
     int map_width = 30;
     int map_height = 15;
 
+    public float cameraHeight = 10f;
+    public Transform cam;
+
     [Header("Terrain Generator")]
     public GameObject prefab_grass;
     public GameObject prefab_grass_2;
@@ -38,6 +41,7 @@ public class ProceduralGenerator : MonoBehaviour
         CreateTileGroups();
         GenerateMap();
         GenerateTrees();
+        SetCameraCentral();
     }
 
     #region Terrain_Generator
@@ -143,4 +147,22 @@ public class ProceduralGenerator : MonoBehaviour
 
 
     #endregion Tree_Generator
+
+    void SetCameraCentral()
+    {
+
+       // Obliczamy œrodek mapy
+       float mapCenterX = map_width / 2f;
+       float mapCenterY = map_height / 2f;
+
+       // Ustawiamy pozycjê kamery na œrodku mapy
+       cam.transform.position = new Vector3(mapCenterX, mapCenterY, -cameraHeight);
+
+       // Ustawiamy projekcjê ortograficzn¹
+       Camera.main.orthographic = true;
+
+       // Dostosowujemy aspekt kamery do proporcji mapy
+       float aspectRatio = (float)map_width / (float)map_height;
+       Camera.main.aspect = aspectRatio;
+    }
 }

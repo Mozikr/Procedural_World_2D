@@ -184,7 +184,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: 4, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -244,14 +244,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a0398535f7c949845148402e4d1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraHeight: 15
+  cam: {fileID: 519420032}
   prefab_grass: {fileID: 6135786295249014736, guid: 8e037534b4c0ddb419da36a46b64398a, type: 3}
   prefab_grass_2: {fileID: 1738728464004666251, guid: 56ba2b423aadc274693646ac958cd906, type: 3}
   prefab_grass_3: {fileID: 1903964154089732464, guid: e4adc50ddf9395848b55652cdecb815e, type: 3}
   prefab_grass_4: {fileID: 7240713434734197392, guid: 120260df035887e48abf4a74cf20ea87, type: 3}
   prefab_grass_5: {fileID: 1357274321299580779, guid: 514c563d7d6a5df4899e2ee338638ce9, type: 3}
   prefab_sand: {fileID: 1357274321299580779, guid: 514c563d7d6a5df4899e2ee338638ce9, type: 3}
-  map_width: 24
-  map_height: 9
   trees:
   - {fileID: 4633802148518697312, guid: f843483045351cd4d84697fb63e2c0cb, type: 3}
   - {fileID: 6014144760132660150, guid: 80c984a0f6221ae489d34a6200701b06, type: 3}
