@@ -253,23 +253,19 @@ MonoBehaviour:
   prefab_grass_5: {fileID: 1357274321299580779, guid: 514c563d7d6a5df4899e2ee338638ce9, type: 3}
   prefab_sand: {fileID: 1357274321299580779, guid: 514c563d7d6a5df4899e2ee338638ce9, type: 3}
   trees:
-  - {fileID: 4633802148518697312, guid: f843483045351cd4d84697fb63e2c0cb, type: 3}
-  - {fileID: 6014144760132660150, guid: 80c984a0f6221ae489d34a6200701b06, type: 3}
-  - {fileID: 193984680522081077, guid: da1c5a61144811b448c3b4badd6c231b, type: 3}
-  - {fileID: 2174914345881185753, guid: d1975b4cd323e3c42a062d9e7f736c55, type: 3}
-  - {fileID: 3967871409119773592, guid: 60d2fba24aa840546b1ff397c4dcc11b, type: 3}
-  - {fileID: 6396785228182676194, guid: 28c7468a22493c4459a3ad8ee34d2de8, type: 3}
-  treesCount: 30
+  - {fileID: 9009878866931131710, guid: ba35d9a2cfc1ea449ad81b78b16e8378, type: 3}
+  - {fileID: 6971782496063356813, guid: e44e54d1f0ef9b3439b2854cb2138d96, type: 3}
+  - {fileID: 6808885524382313999, guid: e9662f2de0a610045ab7d38e9cb12f3f, type: 3}
+  treesCount: 15
   grass:
   - {fileID: 5921957890233286908, guid: 331e93f30e9aa1b47a7b7fa81f8a671d, type: 3}
   - {fileID: 724831666675770922, guid: 4a478df676290a94eb057d902845d61d, type: 3}
   grassCount: 100
   rock:
-  - {fileID: 814070451051500347, guid: ad5b0f99aeb6f2046b90a16c4f6f8641, type: 3}
-  - {fileID: 2555213263584097788, guid: e3cc45df321ba444d8112e39288fd578, type: 3}
-  - {fileID: 2960109239395820169, guid: 8ee411c4d7aa8ff48a632b2c99c9d031, type: 3}
-  - {fileID: 5047115071636434909, guid: d28c9a69c71f542459c2eecd02b9660c, type: 3}
-  rockCount: 10
+  - {fileID: 4842407386729984409, guid: fd1eee6d9359b5e40bcdede3cf142eed, type: 3}
+  - {fileID: 8365394683152883754, guid: 750b6d86001ce7b42850bc07d162be4e, type: 3}
+  - {fileID: 4386048405273263822, guid: 480cc8eb4ff892e449c9db9332bb27e2, type: 3}
+  rockCount: 8
 --- !u!4 &817457897
 Transform:
   m_ObjectHideFlags: 0
