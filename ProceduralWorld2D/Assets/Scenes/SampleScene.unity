@@ -260,6 +260,16 @@ MonoBehaviour:
   - {fileID: 3967871409119773592, guid: 60d2fba24aa840546b1ff397c4dcc11b, type: 3}
   - {fileID: 6396785228182676194, guid: 28c7468a22493c4459a3ad8ee34d2de8, type: 3}
   treesCount: 30
+  grass:
+  - {fileID: 5921957890233286908, guid: 331e93f30e9aa1b47a7b7fa81f8a671d, type: 3}
+  - {fileID: 724831666675770922, guid: 4a478df676290a94eb057d902845d61d, type: 3}
+  grassCount: 100
+  rock:
+  - {fileID: 814070451051500347, guid: ad5b0f99aeb6f2046b90a16c4f6f8641, type: 3}
+  - {fileID: 2555213263584097788, guid: e3cc45df321ba444d8112e39288fd578, type: 3}
+  - {fileID: 2960109239395820169, guid: 8ee411c4d7aa8ff48a632b2c99c9d031, type: 3}
+  - {fileID: 5047115071636434909, guid: d28c9a69c71f542459c2eecd02b9660c, type: 3}
+  rockCount: 10
 --- !u!4 &817457897
 Transform:
   m_ObjectHideFlags: 0
