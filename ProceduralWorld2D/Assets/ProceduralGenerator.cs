@@ -16,11 +16,12 @@ public class ProceduralGenerator : MonoBehaviour
     int x_offset = 0;
     int y_offset = 0;
 
-    int map_width = 30;
-    int map_height = 15;
+    int map_width = 50;
+    int map_height = 50;
 
     public float cameraHeight = 10f;
     public Transform cam;
+    public Transform player;
 
     [Header("Terrain Generator")]
     public GameObject prefab_grass;
@@ -58,26 +59,20 @@ public class ProceduralGenerator : MonoBehaviour
         GenerateTrees();
         GenerateGrass();
         GenerateRocks();
-        SetCameraCentral();
+        SetPlayer();
         GenerateLakeTiles();
+        AddMapBoundaryColliders();
     }
 
-    void SetCameraCentral()
+    void SetPlayer()
     {
         // Obliczamy œrodek mapy
         float mapCenterX = map_width / 2f;
         float mapCenterY = map_height / 2f;
-
-        // Ustawiamy pozycjê kamery na œrodku mapy
-        cam.transform.position = new Vector3(mapCenterX, mapCenterY, -cameraHeight);
-
-        // Ustawiamy projekcjê ortograficzn¹
-        Camera.main.orthographic = true;
-
-        // Dostosowujemy aspekt kamery do proporcji mapy
-        float aspectRatio = (float)map_width / (float)map_height;
-        Camera.main.aspect = aspectRatio;
+        player.transform.position = new Vector3(mapCenterX, mapCenterY, 0);
     }
+
+
 
     #region Terrain_Generator
     void CreateTileset()
@@ -150,6 +145,31 @@ public class ProceduralGenerator : MonoBehaviour
         y_offset = Random.Range(0, 10);
     }
 
+    void AddMapBoundaryColliders()
+    {
+        // Tworzymy box collidery na krawêdziach mapy
+        GameObject topBoundary = CreateBoundaryCollider("TopBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, map_height - 4f));
+        GameObject bottomBoundary = CreateBoundaryCollider("BottomBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, 3f));
+        GameObject leftBoundary = CreateBoundaryCollider("LeftBoundary", 1, map_height, new Vector2(6f, (float)map_height / 2f - 0.5f));
+        GameObject rightBoundary = CreateBoundaryCollider("RightBoundary", 1, map_height, new Vector2(map_width - 7f, (float)map_height / 2f - 0.5f));
+    }
+
+    GameObject CreateBoundaryCollider(string name, float width, float height, Vector2 offset)
+    {
+        // Utworzenie obiektu na collider
+        GameObject boundaryObject = new GameObject(name);
+        boundaryObject.transform.parent = transform;
+
+        // Dodanie BoxCollider do obiektu
+        BoxCollider2D boundaryCollider = boundaryObject.AddComponent<BoxCollider2D>();
+
+        // Ustawienie rozmiaru i pozycji BoxCollider
+        boundaryCollider.size = new Vector2(width, height);
+        boundaryCollider.offset = offset;
+
+        return boundaryObject;
+    }
+
     #endregion Terrain_Generator
     #region Water_Generator
 
@@ -166,7 +186,7 @@ public class ProceduralGenerator : MonoBehaviour
         GameObject tilesetFolder = new GameObject(tilePrefab.name + " Tileset"); // Tworzymy folder dla tilesetu
         tilesetFolder.transform.parent = gameObject.transform;
 
-        Vector3 randomScale = new Vector3(Random.Range(2f, 5f), Random.Range(2f, 4f), 1f); // Losowa skala dla kafelka
+        Vector3 randomScale = new Vector3(Random.Range(2f, 4f), Random.Range(2f, 3f), 1f); // Losowa skala dla kafelka
         Vector3 randomPosition = new Vector3(Random.Range(1, map_width), Random.Range(1, map_height), 0); // Losowa pozycja na mapie
 
         GameObject instantiatedTile = Instantiate(tilePrefab, randomPosition, Quaternion.identity); // Tworzymy kafelek na mapie
