@@ -16,7 +16,7 @@ public class ProceduralGenerator : MonoBehaviour
     int x_offset = 0;
     int y_offset = 0;
 
-    int map_width = 50;
+    int map_width = 60;
     int map_height = 50;
 
     public float cameraHeight = 10f;
