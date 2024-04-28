@@ -151,7 +151,6 @@ public class ProceduralGenerator : MonoBehaviour
     }
 
     #endregion Terrain_Generator
-
     #region Water_Generator
 
     void GenerateLakeTiles()
@@ -194,7 +193,7 @@ public class ProceduralGenerator : MonoBehaviour
                  if (tile_id == 0 || tile_id == 1)
                  {
                      // Losujemy, czy w danym miejscu ma byæ drzewo
-                     if (Random.Range(0f, 1f) < 0.5f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci drzew
+                     if (Random.Range(0f, 1f) < 0.1f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci drzew
                      {
                          Vector3 treePosition = new Vector3(i, j, 0); // Pozycja drzewa na mapie
 
