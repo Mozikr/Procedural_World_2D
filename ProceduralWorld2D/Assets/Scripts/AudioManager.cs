@@ -1,13 +1,10 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    //AudioManager audioManager;
-
     private void Awake()
     {
         foreach (Sound s in sounds)
@@ -89,16 +86,4 @@ public class AudioManager : MonoBehaviour
             s.source.Play();
         }
     }
-
-    /*public void MuteMussic(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        s.source.volume = 0;
-    }
-
-    public void UnMuteMussic(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        s.source.volume = 0.3f;
-    }*/
 }

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProceduralGenerator : MonoBehaviour
@@ -19,8 +17,6 @@ public class ProceduralGenerator : MonoBehaviour
     int map_width = 60;
     int map_height = 50;
 
-    public float cameraHeight = 10f;
-    public Transform cam;
     public Transform player;
 
     [Header("Terrain Generator")]
@@ -72,7 +68,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void SetPlayer()
     {
-        // Obliczamy œrodek mapy
         float mapCenterX = map_width / 2f;
         float mapCenterY = map_height / 2f;
         player.transform.position = new Vector3(mapCenterX, mapCenterY, 0);
@@ -92,14 +87,14 @@ public class ProceduralGenerator : MonoBehaviour
 
     void CreateTileGroups()
     {
-        GameObject tilesetFolder = new GameObject("Ground"); // Tworzymy nowy folder dla wszystkich tilesetów
+        GameObject tilesetFolder = new GameObject("Ground");
         tilesetFolder.transform.parent = gameObject.transform;
 
         tileset_groups = new Dictionary<int, GameObject>();
         foreach (KeyValuePair<int, GameObject> prefab_pair in tileset)
         {
             GameObject tileset_group = new GameObject(prefab_pair.Value.name);
-            tileset_group.transform.parent = tilesetFolder.transform; // Umieszczamy ka¿d¹ grupê w folderze Tilesets
+            tileset_group.transform.parent = tilesetFolder.transform;
             tileset_group.transform.localPosition = new Vector3(0, 0, 0);
             tileset_groups.Add(prefab_pair.Key, tileset_group);
         }
@@ -153,7 +148,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void AddMapBoundaryColliders()
     {
-        // Tworzymy box collidery na krawêdziach mapy
         GameObject topBoundary = CreateBoundaryCollider("TopBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, map_height - 4f));
         GameObject bottomBoundary = CreateBoundaryCollider("BottomBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, 3f));
         GameObject leftBoundary = CreateBoundaryCollider("LeftBoundary", 1, map_height, new Vector2(6f, (float)map_height / 2f - 0.5f));
@@ -162,14 +156,9 @@ public class ProceduralGenerator : MonoBehaviour
 
     GameObject CreateBoundaryCollider(string name, float width, float height, Vector2 offset)
     {
-        // Utworzenie obiektu na collider
         GameObject boundaryObject = new GameObject(name);
         boundaryObject.transform.parent = transform;
-
-        // Dodanie BoxCollider do obiektu
         BoxCollider2D boundaryCollider = boundaryObject.AddComponent<BoxCollider2D>();
-
-        // Ustawienie rozmiaru i pozycji BoxCollider
         boundaryCollider.size = new Vector2(width, height);
         boundaryCollider.offset = offset;
 
@@ -183,21 +172,21 @@ public class ProceduralGenerator : MonoBehaviour
     {
         for (int i = 0; i < lakeTileCount; i++)
         {
-            GenerateWater(prefab_water); // Wywo³aj funkcjê GenerateWater z odpowiednim prefabrykatem
+            GenerateWater(prefab_water);
         }
     }
 
     void GenerateWater(GameObject tilePrefab)
     {
-        GameObject tilesetFolder = new GameObject(tilePrefab.name + " Tileset"); // Tworzymy folder dla tilesetu
+        GameObject tilesetFolder = new GameObject(tilePrefab.name + " Tileset");
         tilesetFolder.transform.parent = gameObject.transform;
 
-        Vector3 randomScale = new Vector3(Random.Range(2f, 4f), Random.Range(2f, 3f), 1f); // Losowa skala dla kafelka
-        Vector3 randomPosition = new Vector3(Random.Range(1, map_width), Random.Range(1, map_height), 0); // Losowa pozycja na mapie
+        Vector3 randomScale = new Vector3(Random.Range(2f, 4f), Random.Range(2f, 3f), 1f);
+        Vector3 randomPosition = new Vector3(Random.Range(1, map_width), Random.Range(1, map_height), 0);
 
-        GameObject instantiatedTile = Instantiate(tilePrefab, randomPosition, Quaternion.identity); // Tworzymy kafelek na mapie
-        instantiatedTile.transform.localScale = randomScale; // Ustawiamy losow¹ skalê kafelka
-        instantiatedTile.transform.parent = tilesetFolder.transform; // Ustawiamy nowo utworzony kafelek jako dziecko obiektu folderu
+        GameObject instantiatedTile = Instantiate(tilePrefab, randomPosition, Quaternion.identity);
+        instantiatedTile.transform.localScale = randomScale;
+        instantiatedTile.transform.parent = tilesetFolder.transform;
     }
 
     #endregion Water_Generator
@@ -205,7 +194,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void GenerateTrees()
      {
-         // Tworzymy folder na drzewa
          GameObject treesFolder = new GameObject(treesFolderName);
          treesFolder.transform.parent = gameObject.transform;
 
@@ -213,35 +201,28 @@ public class ProceduralGenerator : MonoBehaviour
          {
              for (int j = 0; j < map_height; j++)
              {
-                 int tile_id = noise_grid[i][j]; // Pobieramy id terenu z gridu szumu
-
-                 // Sprawdzamy, czy teren na tej pozycji to trawa (0)
+                 int tile_id = noise_grid[i][j];
                  if (tile_id == 0 || tile_id == 1)
                  {
-                     // Losujemy, czy w danym miejscu ma byæ drzewo
-                     if (Random.Range(0f, 1f) < 0.1f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci drzew
+                     if (Random.Range(0f, 1f) < 0.1f)
                      {
-                         Vector3 treePosition = new Vector3(i, j, 0); // Pozycja drzewa na mapie
-
-                         // Sprawdzamy, czy w pobli¿u pozycji drzewa nie znajduje siê ju¿ inne drzewo
+                         Vector3 treePosition = new Vector3(i, j, 0);
                          bool isClear = true;
-                         Collider2D[] colliders = Physics2D.OverlapCircleAll(treePosition, 1f); // Promieñ 1 jednostki
+                         Collider2D[] colliders = Physics2D.OverlapCircleAll(treePosition, 1f);
                          foreach (Collider2D collider in colliders)
                          {
-                             if (collider.CompareTag("Tree")) // Za³ó¿my, ¿e tag dla drzew to "Tree"
+                             if (collider.CompareTag("Tree"))
                              {
                                  isClear = false;
                                  break;
                              }
                          }
-
-                         // Jeœli miejsce jest wolne, tworzymy drzewo
                          if (isClear)
                          {
-                             GameObject treePrefab = trees[Random.Range(0, trees.Length)]; // Losujemy prefabrykat drzewa
-                             GameObject instantiatedTree = Instantiate(treePrefab, treePosition, Quaternion.identity); // Tworzymy drzewo na mapie
-                             instantiatedTree.transform.parent = treesFolder.transform; // Ustawiamy nowo utworzone drzewo jako dziecko obiektu folderu
-                             instantiatedTree.tag = "Tree"; // Dodajemy tag dla drzewa
+                             GameObject treePrefab = trees[Random.Range(0, trees.Length)];
+                             GameObject instantiatedTree = Instantiate(treePrefab, treePosition, Quaternion.identity);
+                             instantiatedTree.transform.parent = treesFolder.transform;
+                             instantiatedTree.tag = "Tree";
                          }
                      }
                  }
@@ -254,7 +235,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void GenerateGrass()
     {
-        // Tworzymy folder na trawê
         GameObject grassFolder = new GameObject(grassFolderName);
         grassFolder.transform.parent = gameObject.transform;
 
@@ -262,18 +242,15 @@ public class ProceduralGenerator : MonoBehaviour
         {
             for (int j = 0; j < map_height; j++)
             {
-                int tile_id = noise_grid[i][j]; // Pobieramy id terenu z gridu szumu
-
-                // Sprawdzamy, czy teren na tej pozycji to trawa (0)
+                int tile_id = noise_grid[i][j];
                 if (tile_id == 0 || tile_id == 1)
                 {
-                    // Losujemy, czy w danym miejscu ma byæ trawa
-                    if (Random.Range(0f, 1f) < 1f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci trawy
+                    if (Random.Range(0f, 1f) < 1f)
                     {
-                        Vector3 grassPosition = new Vector3(i, j, 0); // Pozycja trawy na mapie
-                        GameObject grassPrefab = grass[Random.Range(0, grass.Length)]; // Losujemy prefabrykat trawy
-                        GameObject instantiatedGrass = Instantiate(grassPrefab, grassPosition, Quaternion.identity); // Tworzymy trawê na mapie
-                        instantiatedGrass.transform.parent = grassFolder.transform; // Ustawiamy nowo utworzon¹ trawê jako dziecko obiektu folderu
+                        Vector3 grassPosition = new Vector3(i, j, 0);
+                        GameObject grassPrefab = grass[Random.Range(0, grass.Length)];
+                        GameObject instantiatedGrass = Instantiate(grassPrefab, grassPosition, Quaternion.identity);
+                        instantiatedGrass.transform.parent = grassFolder.transform;
                     }
                 }
             }
@@ -285,7 +262,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void GenerateRocks()
     {
-        // Tworzymy folder na ska³y
         GameObject rockFolder = new GameObject(rockFolderName);
         rockFolder.transform.parent = gameObject.transform;
 
@@ -293,35 +269,28 @@ public class ProceduralGenerator : MonoBehaviour
         {
             for (int j = 0; j < map_height; j++)
             {
-                int tile_id = noise_grid[i][j]; // Pobieramy id terenu z gridu szumu
-
-                // Sprawdzamy, czy teren na tej pozycji to trawa (0)
+                int tile_id = noise_grid[i][j];
                 if (tile_id == 0 || tile_id == 1)
                 {
-                    // Losujemy, czy w danym miejscu ma byæ ska³a
-                    if (Random.Range(0f, 1f) < 0.1f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci ska³
+                    if (Random.Range(0f, 1f) < 0.1f)
                     {
-                        Vector3 rockPosition = new Vector3(i, j, 0); // Pozycja ska³y na mapie
-
-                        // Sprawdzamy, czy w pobli¿u pozycji ska³y nie znajduje siê ju¿ inna ska³a
+                        Vector3 rockPosition = new Vector3(i, j, 0);
                         bool isClear = true;
-                        Collider2D[] colliders = Physics2D.OverlapCircleAll(rockPosition, 1f); // Promieñ 1 jednostki
+                        Collider2D[] colliders = Physics2D.OverlapCircleAll(rockPosition, 1f);
                         foreach (Collider2D collider in colliders)
                         {
-                            if (collider.CompareTag("Rock")) // Za³ó¿my, ¿e tag dla ska³ to "Rock"
+                            if (collider.CompareTag("Rock"))
                             {
                                 isClear = false;
                                 break;
                             }
                         }
-
-                        // Jeœli miejsce jest wolne, tworzymy ska³ê
                         if (isClear)
                         {
-                            GameObject rockPrefab = rockAndBushes[Random.Range(0, rockAndBushes.Length)]; // Losujemy prefabrykat ska³y
-                            GameObject instantiatedRock = Instantiate(rockPrefab, rockPosition, Quaternion.identity); // Tworzymy ska³ê na mapie
-                            instantiatedRock.transform.parent = rockFolder.transform; // Ustawiamy nowo utworzon¹ ska³ê jako dziecko obiektu folderu
-                            instantiatedRock.tag = "Rock"; // Dodajemy tag dla ska³y
+                            GameObject rockPrefab = rockAndBushes[Random.Range(0, rockAndBushes.Length)];
+                            GameObject instantiatedRock = Instantiate(rockPrefab, rockPosition, Quaternion.identity);
+                            instantiatedRock.transform.parent = rockFolder.transform;
+                            instantiatedRock.tag = "Rock";
                         }
                     }
                 }
@@ -335,7 +304,6 @@ public class ProceduralGenerator : MonoBehaviour
 
     void GenerateFox()
     {
-        // Tworzymy folder na ska³y
         GameObject foxFolder = new GameObject(foxFolderName);
         foxFolder.transform.parent = gameObject.transform;
 
@@ -343,20 +311,17 @@ public class ProceduralGenerator : MonoBehaviour
         {
             for (int j = 0; j < map_height; j++)
             {
-                int tile_id = noise_grid[i][j]; // Pobieramy id terenu z gridu szumu
-
-                // Sprawdzamy, czy teren na tej pozycji to trawa (0)
+                int tile_id = noise_grid[i][j];
                 if (tile_id == 0 || tile_id == 1)
                 {
-                    // Losujemy, czy w danym miejscu ma byæ ska³a
-                    if (Random.Range(0f, 1f) < 0.1f) // Mo¿esz zmieniæ 0.1 na inny wspó³czynnik w zale¿noœci od gêstoœci ska³
+                    if (Random.Range(0f, 1f) < 0.1f)
                     {
-                        Vector3 foxPosition = new Vector3(i, j, 0); // Pozycja ska³y na mapie
+                        Vector3 foxPosition = new Vector3(i, j, 0);
 
-                            GameObject foxPrefab = fox[Random.Range(0, fox.Length)]; // Losujemy prefabrykat ska³y
-                            GameObject instantiatedFox = Instantiate(foxPrefab, foxPosition, Quaternion.identity); // Tworzymy ska³ê na mapie
-                            instantiatedFox.transform.parent = foxFolder.transform; // Ustawiamy nowo utworzon¹ ska³ê jako dziecko obiektu folderu
-                            instantiatedFox.tag = "Fox"; // Dodajemy tag dla ska³y
+                            GameObject foxPrefab = fox[Random.Range(0, fox.Length)];
+                            GameObject instantiatedFox = Instantiate(foxPrefab, foxPosition, Quaternion.identity);
+                            instantiatedFox.transform.parent = foxFolder.transform;
+                            instantiatedFox.tag = "Fox";
                         
                     }
                 }

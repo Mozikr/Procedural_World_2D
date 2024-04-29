@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 public class Movement : MonoBehaviour
 {
     [SerializeField]
     private float _moveSpeed = 3f;
+    private int score = 0;
     Rigidbody2D _rb;
     public Animator _anim;
     Vector2 _movement;
     AudioManager _audioManager;
 
-    public GameObject replacementPrefab; // Przygotowany prefabrykat do postawienia
-    public TextMeshProUGUI scoreText; // Referencja do komponentu TextMeshPro
+    public GameObject replacementPrefab;
+    public GameObject particleEffect;
+    public TextMeshProUGUI scoreText;
 
     private void Start()
     {
@@ -51,20 +50,16 @@ public class Movement : MonoBehaviour
         }
     }
 
-
-
-    private int score = 0; // Licznik punktów
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Fox"))
         {
-            Destroy(collision.gameObject); // Usuwamy obiekt z tagiem "Fox"
-            Vector3 position = collision.transform.position; // Pobieramy pozycjê obiektu
-            Quaternion rotation = collision.transform.rotation; // Pobieramy rotacjê obiektu
-            Instantiate(replacementPrefab, position, rotation); // Stawiamy prefabrykat w miejscu zniszczonego obiektu
-
-            // Zwiêkszamy licznik punktów i aktualizujemy wyœwietlany tekst
+            Destroy(collision.gameObject);
+            _audioManager.Play("Poof");
+            Vector3 position = collision.transform.position;
+            Quaternion rotation = collision.transform.rotation;
+            Instantiate(replacementPrefab, position, rotation);
+            Instantiate(particleEffect, position, rotation);
             score++;
             UpdateScoreText();
         }

@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 155601844}
   - component: {fileID: 155601846}
   - component: {fileID: 155601845}
+  - component: {fileID: 155601847}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -293,7 +294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -10, y: -10}
   m_SizeDelta: {x: 350, y: 150}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &155601845
@@ -309,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7264151, g: 0.37591222, b: 0.119927004, a: 0.8627451}
+  m_Color: {r: 0.7264151, g: 0.37591222, b: 0.119927004, a: 0.98039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -334,6 +335,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155601843}
   m_CullTransparentMesh: 1
+--- !u!114 &155601847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155601843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.4339623, g: 0.24639133, b: 0.12486649, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &163547230
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,8 +798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 226a0398535f7c949845148402e4d1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHeight: 10
-  cam: {fileID: 519420032}
   player: {fileID: 2024718689}
   prefab_grass: {fileID: 6135786295249014736, guid: 8e037534b4c0ddb419da36a46b64398a, type: 3}
   prefab_grass_2: {fileID: 1738728464004666251, guid: 56ba2b423aadc274693646ac958cd906, type: 3}
@@ -807,6 +821,7 @@ MonoBehaviour:
   - {fileID: 4386048405273263822, guid: 480cc8eb4ff892e449c9db9332bb27e2, type: 3}
   - {fileID: 6219246374383014817, guid: 14fce7e39a0eab34d8aa22a1fadce7c8, type: 3}
   - {fileID: 4800115312577185042, guid: 77100ba9a86ab8b419d20e8bd467a656, type: 3}
+  - {fileID: 9168983956594171077, guid: 904f6bef72b30c748982880d9f6b55ae, type: 3}
   rockAndBushesCount: 20
   fox:
   - {fileID: 6639299258759896515, guid: 2b692530dc071704fb6c6f1b5ef18496, type: 3}
@@ -1039,6 +1054,7 @@ GameObject:
   - component: {fileID: 1625263110}
   - component: {fileID: 1625263112}
   - component: {fileID: 1625263111}
+  - component: {fileID: 1625263113}
   m_Layer: 5
   m_Name: Panel (1)
   m_TagString: Untagged
@@ -1063,7 +1079,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
   m_SizeDelta: {x: 350, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1625263111
@@ -1079,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7264151, g: 0.37591222, b: 0.119927004, a: 0.8627451}
+  m_Color: {r: 0.7264151, g: 0.37591222, b: 0.119927004, a: 0.98039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1104,6 +1120,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625263109}
   m_CullTransparentMesh: 1
+--- !u!114 &1625263113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625263109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.4339623, g: 0.24639133, b: 0.12486649, a: 1}
+  m_EffectDistance: {x: 5, y: 5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1729493651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,6 +1184,13 @@ MonoBehaviour:
     volume: 0.6
     specialBlend: 1
     pitch: 0.6
+    loop: 0
+    source: {fileID: 0}
+  - name: Poof
+    clip: {fileID: 8300000, guid: af8af72c76990e64ba8888bc86194f6c, type: 3}
+    volume: 1
+    specialBlend: 1
+    pitch: 1
     loop: 0
     source: {fileID: 0}
 --- !u!4 &1729493653
@@ -1369,6 +1407,7 @@ MonoBehaviour:
   _moveSpeed: 3
   _anim: {fileID: 2024718690}
   replacementPrefab: {fileID: 4526609678219065169, guid: cdd4b9a1728d8a84180615f32d980241, type: 3}
+  particleEffect: {fileID: 6594758894984188218, guid: 4bfb64880e0a51e4fac2eeb46ef029b4, type: 3}
   scoreText: {fileID: 11521069}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

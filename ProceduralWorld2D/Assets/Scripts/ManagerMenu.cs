@@ -1,14 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ManagerMenu : MonoBehaviour
 {
     AudioManager _audioManager;
+    public Texture2D cursorArrow;
 
     private void Start()
     {
+        Cursor.SetCursor(cursorArrow, Vector2.zero, CursorMode.ForceSoftware);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         _audioManager = FindObjectOfType<AudioManager>();
         _audioManager.Play("MenuNaturaAmbient");
     }
