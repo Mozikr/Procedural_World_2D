@@ -799,12 +799,15 @@ MonoBehaviour:
   grass:
   - {fileID: 5921957890233286908, guid: 331e93f30e9aa1b47a7b7fa81f8a671d, type: 3}
   - {fileID: 724831666675770922, guid: 4a478df676290a94eb057d902845d61d, type: 3}
-  grassCount: 100
-  rock:
+  - {fileID: 6479421964136876387, guid: 56c6b78e40070d846b26bd80b2a0c768, type: 3}
+  grassCount: 50
+  rockAndBushes:
   - {fileID: 4842407386729984409, guid: fd1eee6d9359b5e40bcdede3cf142eed, type: 3}
   - {fileID: 8365394683152883754, guid: 750b6d86001ce7b42850bc07d162be4e, type: 3}
   - {fileID: 4386048405273263822, guid: 480cc8eb4ff892e449c9db9332bb27e2, type: 3}
-  rockCount: 8
+  - {fileID: 6219246374383014817, guid: 14fce7e39a0eab34d8aa22a1fadce7c8, type: 3}
+  - {fileID: 4800115312577185042, guid: 77100ba9a86ab8b419d20e8bd467a656, type: 3}
+  rockAndBushesCount: 20
   fox:
   - {fileID: 6639299258759896515, guid: 2b692530dc071704fb6c6f1b5ef18496, type: 3}
   foxCount: 50

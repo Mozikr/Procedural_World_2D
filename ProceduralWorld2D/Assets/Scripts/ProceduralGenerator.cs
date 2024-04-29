@@ -43,10 +43,10 @@ public class ProceduralGenerator : MonoBehaviour
     public int grassCount;
     string grassFolderName = "Grass";
 
-    [Header("Rocks Generator")]
-    public GameObject[] rock;
-    public int rockCount;
-    string rockFolderName = "Rocks";
+    [Header("Rocks/Bushes Generator")]
+    public GameObject[] rockAndBushes;
+    public int rockAndBushesCount;
+    string rockFolderName = "RocksAndBushes";
 
     [Header("Fox Generator")]
     public GameObject[] fox;
@@ -318,7 +318,7 @@ public class ProceduralGenerator : MonoBehaviour
                         // Jeœli miejsce jest wolne, tworzymy ska³ê
                         if (isClear)
                         {
-                            GameObject rockPrefab = rock[Random.Range(0, rock.Length)]; // Losujemy prefabrykat ska³y
+                            GameObject rockPrefab = rockAndBushes[Random.Range(0, rockAndBushes.Length)]; // Losujemy prefabrykat ska³y
                             GameObject instantiatedRock = Instantiate(rockPrefab, rockPosition, Quaternion.identity); // Tworzymy ska³ê na mapie
                             instantiatedRock.transform.parent = rockFolder.transform; // Ustawiamy nowo utworzon¹ ska³ê jako dziecko obiektu folderu
                             instantiatedRock.tag = "Rock"; // Dodajemy tag dla ska³y
