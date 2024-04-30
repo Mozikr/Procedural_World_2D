@@ -57,9 +57,7 @@ public class ProceduralGenerator : MonoBehaviour
         CreateTileset();
         CreateTileGroups();
         GenerateMap();
-        GenerateTrees();
-        GenerateGrass();
-        GenerateRocks();
+        GenerateTerrain();
         SetPlayer();
         GenerateLakeTiles();
         AddMapBoundaryColliders();
@@ -72,8 +70,6 @@ public class ProceduralGenerator : MonoBehaviour
         float mapCenterY = map_height / 2f;
         player.transform.position = new Vector3(mapCenterX, mapCenterY, 0);
     }
-
-
 
     #region Terrain_Generator
     void CreateTileset()
@@ -109,14 +105,14 @@ public class ProceduralGenerator : MonoBehaviour
 
             for (int j = 0; j < map_height; j++)
             {
-                int tile_id = GetIdUsingPerlin(i, j);
+                int tile_id = PerlinGetID(i, j);
                 noise_grid[i].Add(tile_id);
-                CreateTile(tile_id, i, j);
+                TileCreator(tile_id, i, j);
             }
         }
     }
 
-    int GetIdUsingPerlin(int x, int y)
+    int PerlinGetID(int x, int y)
     {
         float raw_perlin = Mathf.PerlinNoise((x - x_offset) / magnification, y - (y_offset / magnification));
         float clamp_perlin = Mathf.Clamp(raw_perlin, 0f, 1f);
@@ -128,13 +124,13 @@ public class ProceduralGenerator : MonoBehaviour
         return Mathf.FloorToInt(scaled_perlin);
     }
 
-    void CreateTile(int tile_id, int x, int y)
+    void TileCreator(int tile_id, int x, int y)
     {
         GameObject tile_prefab = tileset[tile_id];
         GameObject tile_group = tileset_groups[tile_id];
         GameObject tile = Instantiate(tile_prefab, tile_group.transform);
 
-        tile.name = string.Format("tile_x{0}_y{1}", x, y);
+        tile.name = string.Format("t_x{0}_y{1}", x, y);
         tile.transform.localPosition = new Vector3(x, y, 0);
 
         tilemap_grid[x].Add(tile);
@@ -148,16 +144,19 @@ public class ProceduralGenerator : MonoBehaviour
 
     void AddMapBoundaryColliders()
     {
-        GameObject topBoundary = CreateBoundaryCollider("TopBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, map_height - 4f));
-        GameObject bottomBoundary = CreateBoundaryCollider("BottomBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, 3f));
-        GameObject leftBoundary = CreateBoundaryCollider("LeftBoundary", 1, map_height, new Vector2(6f, (float)map_height / 2f - 0.5f));
-        GameObject rightBoundary = CreateBoundaryCollider("RightBoundary", 1, map_height, new Vector2(map_width - 7f, (float)map_height / 2f - 0.5f));
+        GameObject borders = new GameObject("Borders");
+        borders.transform.parent = transform;
+
+        GameObject topBoundary = CreateBoundaryCollider("TopBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, map_height - 4f), borders);
+        GameObject bottomBoundary = CreateBoundaryCollider("BottomBoundary", map_width, 1, new Vector2((float)map_width / 2f - 0.5f, 3f), borders);
+        GameObject leftBoundary = CreateBoundaryCollider("LeftBoundary", 1, map_height, new Vector2(6f, (float)map_height / 2f - 0.5f), borders);
+        GameObject rightBoundary = CreateBoundaryCollider("RightBoundary", 1, map_height, new Vector2(map_width - 7f, (float)map_height / 2f - 0.5f), borders);
     }
 
-    GameObject CreateBoundaryCollider(string name, float width, float height, Vector2 offset)
+    GameObject CreateBoundaryCollider(string name, float width, float height, Vector2 offset, GameObject parent)
     {
         GameObject boundaryObject = new GameObject(name);
-        boundaryObject.transform.parent = transform;
+        boundaryObject.transform.parent = parent.transform;
         BoxCollider2D boundaryCollider = boundaryObject.AddComponent<BoxCollider2D>();
         boundaryCollider.size = new Vector2(width, height);
         boundaryCollider.offset = offset;
@@ -165,21 +164,25 @@ public class ProceduralGenerator : MonoBehaviour
         return boundaryObject;
     }
 
+
     #endregion Terrain_Generator
     #region Water_Generator
 
     void GenerateLakeTiles()
     {
+        GameObject allLakes = new GameObject("AllLakes");
+        allLakes.transform.parent = transform;
+
         for (int i = 0; i < lakeTileCount; i++)
         {
-            GenerateWater(prefab_water);
+            GenerateWater(prefab_water, allLakes);
         }
     }
 
-    void GenerateWater(GameObject tilePrefab)
+    void GenerateWater(GameObject tilePrefab, GameObject parent)
     {
         GameObject tilesetFolder = new GameObject(tilePrefab.name + " Tileset");
-        tilesetFolder.transform.parent = gameObject.transform;
+        tilesetFolder.transform.parent = parent.transform; // Ustawiamy parent jako rodzica
 
         Vector3 randomScale = new Vector3(Random.Range(2f, 4f), Random.Range(2f, 3f), 1f);
         Vector3 randomPosition = new Vector3(Random.Range(1, map_width), Random.Range(1, map_height), 0);
@@ -189,117 +192,8 @@ public class ProceduralGenerator : MonoBehaviour
         instantiatedTile.transform.parent = tilesetFolder.transform;
     }
 
+
     #endregion Water_Generator
-    #region Tree_Generator
-
-    void GenerateTrees()
-     {
-         GameObject treesFolder = new GameObject(treesFolderName);
-         treesFolder.transform.parent = gameObject.transform;
-
-         for (int i = 0; i < map_width; i++)
-         {
-             for (int j = 0; j < map_height; j++)
-             {
-                 int tile_id = noise_grid[i][j];
-                 if (tile_id == 0 || tile_id == 1)
-                 {
-                     if (Random.Range(0f, 1f) < 0.1f)
-                     {
-                         Vector3 treePosition = new Vector3(i, j, 0);
-                         bool isClear = true;
-                         Collider2D[] colliders = Physics2D.OverlapCircleAll(treePosition, 1f);
-                         foreach (Collider2D collider in colliders)
-                         {
-                             if (collider.CompareTag("Tree"))
-                             {
-                                 isClear = false;
-                                 break;
-                             }
-                         }
-                         if (isClear)
-                         {
-                             GameObject treePrefab = trees[Random.Range(0, trees.Length)];
-                             GameObject instantiatedTree = Instantiate(treePrefab, treePosition, Quaternion.identity);
-                             instantiatedTree.transform.parent = treesFolder.transform;
-                             instantiatedTree.tag = "Tree";
-                         }
-                     }
-                 }
-             }
-         }
-     }
-
-    #endregion Tree_Generator
-    #region Grass_Generator
-
-    void GenerateGrass()
-    {
-        GameObject grassFolder = new GameObject(grassFolderName);
-        grassFolder.transform.parent = gameObject.transform;
-
-        for (int i = 0; i < map_width; i++)
-        {
-            for (int j = 0; j < map_height; j++)
-            {
-                int tile_id = noise_grid[i][j];
-                if (tile_id == 0 || tile_id == 1)
-                {
-                    if (Random.Range(0f, 1f) < 1f)
-                    {
-                        Vector3 grassPosition = new Vector3(i, j, 0);
-                        GameObject grassPrefab = grass[Random.Range(0, grass.Length)];
-                        GameObject instantiatedGrass = Instantiate(grassPrefab, grassPosition, Quaternion.identity);
-                        instantiatedGrass.transform.parent = grassFolder.transform;
-                    }
-                }
-            }
-        }
-    }
-
-    #endregion Grass_Generator
-    #region Rock_Generator
-
-    void GenerateRocks()
-    {
-        GameObject rockFolder = new GameObject(rockFolderName);
-        rockFolder.transform.parent = gameObject.transform;
-
-        for (int i = 0; i < map_width; i++)
-        {
-            for (int j = 0; j < map_height; j++)
-            {
-                int tile_id = noise_grid[i][j];
-                if (tile_id == 0 || tile_id == 1)
-                {
-                    if (Random.Range(0f, 1f) < 0.1f)
-                    {
-                        Vector3 rockPosition = new Vector3(i, j, 0);
-                        bool isClear = true;
-                        Collider2D[] colliders = Physics2D.OverlapCircleAll(rockPosition, 1f);
-                        foreach (Collider2D collider in colliders)
-                        {
-                            if (collider.CompareTag("Rock"))
-                            {
-                                isClear = false;
-                                break;
-                            }
-                        }
-                        if (isClear)
-                        {
-                            GameObject rockPrefab = rockAndBushes[Random.Range(0, rockAndBushes.Length)];
-                            GameObject instantiatedRock = Instantiate(rockPrefab, rockPosition, Quaternion.identity);
-                            instantiatedRock.transform.parent = rockFolder.transform;
-                            instantiatedRock.tag = "Rock";
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    #endregion Rock_Generator
-
     #region Fox_Generator
 
     void GenerateFox()
@@ -330,7 +224,75 @@ public class ProceduralGenerator : MonoBehaviour
     }
 
     #endregion Fox_Generator
+    #region Trees_Grass_Rocks_Generator
 
+    void GenerateTerrain()
+    {
+        GameObject treesFolder = new GameObject(treesFolderName);
+        treesFolder.transform.parent = gameObject.transform;
+
+        GameObject grassFolder = new GameObject(grassFolderName);
+        grassFolder.transform.parent = gameObject.transform;
+
+        GameObject rockFolder = new GameObject(rockFolderName);
+        rockFolder.transform.parent = gameObject.transform;
+
+        for (int i = 0; i < map_width; i++)
+        {
+            for (int j = 0; j < map_height; j++)
+            {
+                int tile_id = noise_grid[i][j];
+                if (tile_id == 0 || tile_id == 1)
+                {
+                    if (Random.Range(0f, 1f) < 0.1f)
+                    {
+                        Vector3 position = new Vector3(i, j, 0);
+
+                        // Sprawdzenie, czy w danym miejscu znajduje siê ju¿ obiekt
+                        bool isClear = IsPositionClear(position, "Tree");
+                        if (isClear)
+                        {
+                            GameObject treePrefab = trees[Random.Range(0, trees.Length)];
+                            GameObject instantiatedTree = Instantiate(treePrefab, position, Quaternion.identity);
+                            instantiatedTree.transform.parent = treesFolder.transform;
+                            instantiatedTree.tag = "Tree";
+                        }
+
+                        isClear = IsPositionClear(position, "Rock");
+                        if (isClear)
+                        {
+                            GameObject rockPrefab = rockAndBushes[Random.Range(0, rockAndBushes.Length)];
+                            GameObject instantiatedRock = Instantiate(rockPrefab, position, Quaternion.identity);
+                            instantiatedRock.transform.parent = rockFolder.transform;
+                            instantiatedRock.tag = "Rock";
+                        }
+                    }
+                    if (Random.Range(0f, 1f) < 1f)
+                    {
+                        Vector3 position = new Vector3(i, j, 0);
+                        GameObject grassPrefab = grass[Random.Range(0, grass.Length)];
+                        GameObject instantiatedGrass = Instantiate(grassPrefab, position, Quaternion.identity);
+                        instantiatedGrass.transform.parent = grassFolder.transform;
+                    }
+                }
+            }
+        }
+    }
+
+    bool IsPositionClear(Vector3 position, string tag)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, 1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag(tag))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    #endregion Trees_Grass_Rocks_Generator
 }
 
 

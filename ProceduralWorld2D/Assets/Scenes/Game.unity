@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 817457897}
   - component: {fileID: 817457896}
   m_Layer: 0
-  m_Name: Map
+  m_Name: ProceduralWorldGenerator2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1414,7 +1414,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 817457897}
-  - {fileID: 2024718689}
   - {fileID: 890365890}
-  - {fileID: 1473721115}
   - {fileID: 367178596}
+  - {fileID: 2024718689}
+  - {fileID: 1473721115}
