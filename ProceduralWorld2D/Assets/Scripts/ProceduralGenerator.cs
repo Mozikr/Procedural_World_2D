@@ -247,8 +247,6 @@ public class ProceduralGenerator : MonoBehaviour
                     if (Random.Range(0f, 1f) < 0.1f)
                     {
                         Vector3 position = new Vector3(i, j, 0);
-
-                        // Sprawdzenie, czy w danym miejscu znajduje siê ju¿ obiekt
                         bool isClear = IsPositionClear(position, "Tree");
                         if (isClear)
                         {
