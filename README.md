@@ -1,5 +1,5 @@
 ## Project: Procedural World 2D
-<p align="center"><img src="Image/title.png"/></p>
+<p align="center"><img src="Image/preview_01.png"/></p>
 
 ### Made with C# and Unity Engine
 
