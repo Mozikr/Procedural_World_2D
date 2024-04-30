@@ -11,6 +11,10 @@ The game I created for a recruitment task involves catching as many foxes as pos
     <td><p align="center"><img src="Image/preview_gif_01.gif"/></p></td>
     <td><p align="center"><img src="Image/preview_gif_02.gif"/></p></td>
 </tr>
+<tr>
+    <td><p align="center"><img src="Image/preview_gif_03.gif"/></p></td>
+    <td><p align="center"><img src="Image/preview_gif_04.gif"/></p></td>
+</tr>
 </table>
 
 <h2 align="center">Download :video_game: </h2>
