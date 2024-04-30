@@ -13,7 +13,7 @@ A game we created in a week in a four-person team for ScreamJam 2023. :ghost:
 <table>
 <tr>
     <td><p align="center"><img src="Image/preview_gif_01.gif"/></p></td>
-    <td><p align="center"><img src="Image/preview_gif_01.gif"/></p></td>
+    <td><p align="center"><img src="Image/preview_gif_02.gif"/></p></td>
 </tr>
 </table>
 
